@@ -13,7 +13,7 @@ module ViewDebugHelper
   def debug_popup
     popup_create do |script| 
       script << add("<html><head><title>Rails Debug Console_#{@controller.class.name}</title></head><body>")
-      script << add('<style type='text/css'> body {background-color:#FFFFFF;} table {width:100%;border: 0;} th {background-color:#CCCCCC;font-weight: bold;} td {background-color:#EEEEEE; vertical-align: top;} td.key {color: blue;} td {color: green;}</style><table><colgroup id="key-column"/>' )
+      script << add('<style type="text/css"> body {background-color:#FFFFFF;} table {width:100%;border: 0;} th {background-color:#CCCCCC;font-weight: bold;} td {background-color:#EEEEEE; vertical-align: top;} td.key {color: blue;} td {color: green;}</style><table><colgroup id="key-column"/>' )
       popup_header(script,'Rails Debug Console')
 
       if ! @controller.params.nil?
