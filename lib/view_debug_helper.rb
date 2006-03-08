@@ -1,4 +1,3 @@
-# Derived from http://www.bigbold.com/snippets/posts/show/697
 # Add something like the following to get debug output in separate popup
 #  <botton onclick="show_debug_popup(); return false;">Show debug popup</button>
 #  <%= debug_popup %>

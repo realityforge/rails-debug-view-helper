@@ -1,0 +1,29 @@
+= debug_view_helper plugin for Rails
+
+debug_view_helper is a plugin that adds easily accessible debug information
+into your views. The plugin makes it easy to add a button that will popup a 
+new window that displays the following debug data;
+
+* Request Parameters
+* Session Variables
+* Flash Variables
+* Assigned Template Variables
+
+Typically you add code such as the following to the bottom of your layout 
+that exposes the debug button in development mode.
+
+<% if RAILS_ENV == 'development' %>
+<center><button onclick="show_debug_popup(); return false;">Show debug popup</button></center>
+<%= debug_popup %>
+<% end %>
+
+== Details
+
+License: Released under the MIT license.
+Latest Version: http://www.realityforge.org/svn/public/code/debug-view-helper/trunk/
+
+== Credits
+
+Marten Veldthuis for the initial idea in Epilog. 
+Peter Donald <peter at realityforge dot org>.
+
