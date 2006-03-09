@@ -3,12 +3,6 @@
 #  <%= debug_popup %>
 module ViewDebugHelper
   
-  def self.append_features(controller) #:nodoc:
-    controller.ancestors.include?(ActionController::Base) ? controller.add_template_helper(self) : super
-  end
-    
-  IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'subcategories', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers' ] unless const_defined?(:IGNORE)
-
   def debug_popup
     popup_create do |script| 
       script << add("<html><head><title>Rails Debug Console_#{@controller.class.name}</title></head><body>")
@@ -31,6 +25,8 @@ module ViewDebugHelper
   end
 
   private
+
+  IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'subcategories', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers' ] unless const_defined?(:IGNORE)
 
   def dump_vars(script,header,vars)
       return if vars.nil?
