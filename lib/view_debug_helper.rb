@@ -26,7 +26,7 @@ module ViewDebugHelper
 
   private
 
-  IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'subcategories', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers' ] unless const_defined?(:IGNORE)
+  IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'variables_added', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers' ] unless const_defined?(:IGNORE)
 
   def dump_vars(script,header,vars)
       return if vars.nil?
