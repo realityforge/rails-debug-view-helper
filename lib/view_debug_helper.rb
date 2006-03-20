@@ -1,41 +1,63 @@
 # Add something like the following to get debug output in separate popup
 #  <botton onclick="show_debug_popup(); return false;">Show debug popup</button>
 #  <%= debug_popup %>
+#
+# Alternatively if you want to render the table inline you can use <%= debug_inline %>
 module ViewDebugHelper
   
   def debug_popup
+    @raw = false
     popup_create do |script| 
-      script << add("<html><head><title>Rails Debug Console_#{@controller.class.name}</title></head><body>")
-      script << add("<style type='text/css'> body {background-color:#FFFFFF;} table {width:100%;border: 0;} th {background-color:#CCCCCC;font-weight: bold;} td {background-color:#EEEEEE; vertical-align: top;} td.key {color: blue;} td {color: green;}</style><table><colgroup id='key-column'/>" )
-      popup_header(script,'Rails Debug Console')
-
-      if ! @controller.params.nil?
-        popup_header(script,'Request Parameters:')
-        @controller.params.each do |key, value| 
-          popup_data(script,h(key),h(value.inspect).gsub(/,/, ',<br/>')) unless IGNORE.include?(key)
-        end
-      end
-
-      dump_vars(script,'Session Variables:',@controller.instance_variable_get("@data"))
-      dump_vars(script,'Flash Variables:',@controller.instance_variable_get("@flash"))
-      dump_vars(script,'Assigned Template Variables:',@controller.assigns)
-      script << add('</table></body></html>')
-      
+      script << add("<html><head><title>Rails Debug Console_#{@controller.class.name}</title>")
+      script << add("<style type='text/css'> body {background-color:#FFFFFF;} </style>" )
+      render_style(script)
+      script << add('</head><body>' )
+      render_table(script)
+      script << add('</body></html>')
     end
+  end
+
+  def debug_inline
+    @raw = true
+    script = ""
+    render_style(script)
+    render_table(script)
+    script
   end
 
   private
 
   IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'variables_added', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers' ] unless const_defined?(:IGNORE)
 
+  def render_style(script)
+    script << add("<style type='text/css'> table.debug {width:100%;border: 0;} table.debug th {background-color:#CCCCCC;font-weight: bold;} table.debug td {background-color:#EEEEEE; vertical-align: top;} table.debug td.key {color: blue;} table.debug td {color: green;}</style>" )
+  end
+
+  def render_table(script)
+    script << add("<table class='debug'><colgroup id='key-column'/>" )
+    popup_header(script,'Rails Debug Console')
+    
+    if ! @controller.params.nil?
+      popup_header(script,'Request Parameters:')
+      @controller.params.each do |key, value| 
+        popup_data(script,h(key),h(value.inspect).gsub(/,/, ',<br/>')) unless IGNORE.include?(key)
+      end
+    end
+    
+    dump_vars(script,'Session Variables:',@controller.instance_variable_get("@data"))
+    dump_vars(script,'Flash Variables:',@controller.instance_variable_get("@flash"))
+    dump_vars(script,'Assigned Template Variables:',@controller.assigns)
+    script << add('</table>')
+  end
+
   def dump_vars(script,header,vars)
-      return if vars.nil?
-      popup_header(script,header)
-      vars.each {|k,v| popup_data(script,h(k),dump_obj(v)) unless IGNORE.include?(k)}
+    return if vars.nil?
+    popup_header(script,header)
+    vars.each {|k,v| popup_data(script,h(k),dump_obj(v)) unless IGNORE.include?(k)}
   end
 
   def popup_header(script,heading); script << add( "<tr><th colspan='2'>#{heading}</th></tr>" ); end
-
+  
   def popup_data(script,key,value); script << add( "<tr><td class='key'>#{key}</td><td>#{value}</td></tr>" ); end
   
   def popup_create
@@ -49,13 +71,17 @@ module ViewDebugHelper
   end
   
   def add(msg)
-    "_rails_console.document.write(\"#{msg}\")\n"
+    if @raw
+      msg
+    else
+      "_rails_console.document.write(\"#{msg}\")\n"
+    end
   end  
 
   def dump_obj(object)
     begin
       Marshal::dump(object)
-      "<pre>#{h(object.to_yaml).gsub("  ", "&nbsp; ").gsub("\n", "<br/>\"+\n\"" )}</pre>"
+      "<pre>#{h(object.to_yaml).gsub("  ", "&nbsp; ").gsub("\n", "<br/>" )}</pre>"
     rescue Object => e
       # Object couldn't be dumped, perhaps because of singleton methods -- this is the fallback
       "<pre>#{h(object.inspect)}</pre>"

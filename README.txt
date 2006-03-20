@@ -17,6 +17,8 @@ that exposes the debug button in development mode.
 <%= debug_popup %>
 <% end %>
 
+Alternatively you can expose the debug information inline via <%= debug_inline %>
+
 == Details
 
 License: Released under the MIT license.
@@ -26,4 +28,4 @@ Latest Version: http://www.realityforge.org/svn/public/code/debug-view-helper/tr
 
 Marten Veldthuis for the initial idea in Epilog. 
 Peter Donald <peter at realityforge dot org>.
-
+John Dell for suggestion to add debug_inline feature.
