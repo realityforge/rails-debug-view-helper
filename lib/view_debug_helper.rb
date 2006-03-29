@@ -79,6 +79,7 @@ module ViewDebugHelper
   end  
 
   def dump_obj(object)
+    return '...' if object.class.name == 'ActionController::Pagination::Paginator'
     begin
       Marshal::dump(object)
       "<pre>#{h(object.to_yaml).gsub("  ", "&nbsp; ").gsub("\n", "<br/>" )}</pre>"
