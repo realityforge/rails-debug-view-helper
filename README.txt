@@ -29,3 +29,4 @@ Latest Version: http://www.realityforge.org/svn/public/code/debug-view-helper/tr
 Marten Veldthuis for the initial idea in Epilog. 
 Peter Donald <peter at realityforge dot org>.
 John Dell for suggestion to add debug_inline feature.
+Rob Sharp for minor table style changes.

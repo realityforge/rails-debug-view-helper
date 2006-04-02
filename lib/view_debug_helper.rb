@@ -30,7 +30,7 @@ module ViewDebugHelper
   IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'variables_added', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers' ] unless const_defined?(:IGNORE)
 
   def render_style(script)
-    script << add("<style type='text/css'> table.debug {width:100%;border: 0;} table.debug th {background-color:#CCCCCC;font-weight: bold;} table.debug td {background-color:#EEEEEE; vertical-align: top;} table.debug td.key {color: blue;} table.debug td {color: green;}</style>" )
+    script << add("<style type='text/css'> table.debug {width:100%;border: 0;} table.debug th {text-align: left; background-color:#CCCCCC;font-weight: bold;} table.debug td {background-color:#EEEEEE; vertical-align: top;} table.debug td.key {color: blue;} table.debug td {color: green;}</style>" )
   end
 
   def render_table(script)
