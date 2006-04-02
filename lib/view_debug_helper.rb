@@ -44,7 +44,7 @@ module ViewDebugHelper
       end
     end
     
-    dump_vars(script,'Session Variables:',@controller.instance_variable_get("@data"))
+    dump_vars(script,'Session Variables:',@controller.instance_variable_get("@session").instance_variable_get("@data"))
     dump_vars(script,'Flash Variables:',@controller.instance_variable_get("@flash"))
     dump_vars(script,'Assigned Template Variables:',@controller.assigns)
     script << add('</table>')
