@@ -58,7 +58,7 @@ module ViewDebugHelper
 
   def popup_header(script,heading); script << add( "<tr><th colspan='2'>#{heading}</th></tr>" ); end
   
-  def popup_data(script,key,value); script << add( "<tr><td class='key'>#{key}</td><td>#{value}</td></tr>" ); end
+  def popup_data(script,key,value); script << add( "<tr><td class='key'>#{key}</td><td>#{value.gsub(/\r|\n/,'<br/>')}</td></tr>" ); end
   
   def popup_create
     script = "<script language='javascript'>\n<!--\n"
