@@ -31,3 +31,4 @@ Peter Donald <peter at realityforge dot org>.
 John Dell for suggestion to add debug_inline feature.
 Rob Sharp for minor table style changes.
 Chris Wanstrath for bugfix where values contains newlines.
+Craig Steinberger for updates to rails 1.2.1.

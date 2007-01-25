@@ -89,7 +89,3 @@ module ViewDebugHelper
     end
   end
 end
-
-ActionController::Base.class_eval do
-  helper :view_debug
-end
