@@ -4,10 +4,10 @@
 #
 # Alternatively if you want to render the table inline you can use <%= debug_inline %>
 module ViewDebugHelper
-  
+
   def debug_popup
     @raw = false
-    popup_create do |script| 
+    popup_create do |script|
       script << add("<html><head><title>Rails Debug Console_#{@controller.class.name}</title>")
       script << add("<style type='text/css'> body {background-color:#FFFFFF;} </style>" )
       render_style(script)
@@ -27,7 +27,7 @@ module ViewDebugHelper
 
   private
 
-  IGNORE = ['template_root', 'template_class', 'response', 'template', 'session', 'url', 'params', 'variables_added', 'ignore_missing_templates', 'cookies', 'request', 'logger', 'flash', 'headers', 'before_filter_chain_aborted' ] unless const_defined?(:IGNORE)
+  IGNORE = ['template_root', 'template_class', 'response', '_response', 'template', 'session', '_session', 'url', 'params', '_params', 'variables_added', 'ignore_missing_templates', 'cookies', '_cookies', 'request', '_request', 'logger', 'flash', '_flash', 'headers', '_headers', 'before_filter_chain_aborted' ] unless const_defined?(:IGNORE)
 
   def render_style(script)
     script << add("<style type='text/css'> table.debug {width:100%;border: 0;} table.debug th {text-align: left; background-color:#CCCCCC;font-weight: bold;} table.debug td {background-color:#EEEEEE; vertical-align: top;} table.debug td.key {color: blue;} table.debug td {color: green;}</style>" )
@@ -36,14 +36,14 @@ module ViewDebugHelper
   def render_table(script)
     script << add("<table class='debug'><colgroup id='key-column'/>" )
     popup_header(script,'Rails Debug Console')
-    
+
     if ! @controller.params.nil?
       popup_header(script,'Request Parameters:')
-      @controller.params.each do |key, value| 
+      @controller.params.each do |key, value|
         popup_data(script,h(key),h(value.inspect).gsub(/,/, ',<br/>')) unless IGNORE.include?(key)
       end
     end
-    
+
     dump_vars(script,'Session Variables:',@controller.instance_variable_get("@session").instance_variable_get("@data"))
     dump_vars(script,'Flash Variables:',@controller.instance_variable_get("@flash"))
     dump_vars(script,'Assigned Template Variables:',@controller.assigns)
@@ -57,9 +57,9 @@ module ViewDebugHelper
   end
 
   def popup_header(script,heading); script << add( "<tr><th colspan='2'>#{heading}</th></tr>" ); end
-  
+
   def popup_data(script,key,value); script << add( "<tr><td class='key'>#{key}</td><td>#{value.gsub(/\r|\n/,'<br/>')}</td></tr>" ); end
-  
+
   def popup_create
     script = "<script language='javascript'>\n<!--\n"
     script << "function show_debug_popup() {\n"
@@ -69,14 +69,14 @@ module ViewDebugHelper
     script << "}\n"
     script << "-->\n</script>"
   end
-  
+
   def add(msg)
     if @raw
       msg
     else
       "_rails_console.document.write(\"#{msg}\")\n"
     end
-  end  
+  end
 
   def dump_obj(object)
     return '...' if object.class.name == 'ActionController::Pagination::Paginator'
