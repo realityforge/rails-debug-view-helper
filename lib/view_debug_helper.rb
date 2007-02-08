@@ -44,8 +44,8 @@ module ViewDebugHelper
       end
     end
 
-    dump_vars(script,'Session Variables:',@controller.instance_variable_get("@session").instance_variable_get("@data"))
-    dump_vars(script,'Flash Variables:',@controller.instance_variable_get("@flash"))
+    dump_vars(script,'Session Variables:',@controller.session.instance_variable_get("@data"))
+    dump_vars(script,'Flash Variables:',@controller.flash)
     dump_vars(script,'Assigned Template Variables:',@controller.assigns)
     script << add('</table>')
   end
@@ -88,4 +88,9 @@ module ViewDebugHelper
       "<pre>#{h(object.inspect)}</pre>"
     end
   end
+end
+
+class ActionController::Base
+   alias :original_flash :flash 
+   def flash(refresh = false) original_flash(refresh) end
 end
