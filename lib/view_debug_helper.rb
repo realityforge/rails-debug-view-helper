@@ -35,30 +35,34 @@ module ViewDebugHelper
 
   def render_table(script)
     script << add("<table class='debug'><colgroup id='key-column'/>" )
-    popup_header(script,'Rails Debug Console')
+    popup_header(script, 'Rails Debug Console')
 
     if ! @controller.params.nil?
-      popup_header(script,'Request Parameters:')
+      popup_header(script, 'Request Parameters:')
       @controller.params.each do |key, value|
-        popup_data(script,h(key),h(value.inspect).gsub(/,/, ',<br/>')) unless IGNORE.include?(key)
+        popup_data(script, h(key), h(value.inspect).gsub(/,/, ',<br/>')) unless IGNORE.include?(key)
       end
     end
 
-    dump_vars(script,'Session Variables:',@controller.session.instance_variable_get("@data"))
-    dump_vars(script,'Flash Variables:',@controller.flash)
-    dump_vars(script,'Assigned Template Variables:',@controller.assigns)
+    dump_vars(script, 'Session Variables:', @controller.session.instance_variable_get("@data"))
+    dump_vars(script, 'Flash Variables:', @controller.flash)
+    dump_vars(script, 'Assigned Template Variables:', @controller.assigns)
     script << add('</table>')
   end
 
-  def dump_vars(script,header,vars)
+  def dump_vars(script, header, vars)
     return if vars.nil?
-    popup_header(script,header)
-    vars.each {|k,v| popup_data(script,h(k),dump_obj(v)) unless IGNORE.include?(k)}
+    popup_header(script, header)
+    vars.each {|k, v| popup_data(script, h(k), dump_obj(v)) unless IGNORE.include?(k)}
   end
 
-  def popup_header(script,heading); script << add( "<tr><th colspan='2'>#{heading}</th></tr>" ); end
+  def popup_header(script, heading)
+    ; script << add( "<tr><th colspan='2'>#{heading}</th></tr>" );
+  end
 
-  def popup_data(script,key,value); script << add( "<tr><td class='key'>#{key}</td><td>#{value.gsub(/\r|\n/,'<br/>')}</td></tr>" ); end
+  def popup_data(script, key, value)
+    ; script << add( "<tr><td class='key'>#{key}</td><td>#{value.gsub(/\r|\n/, '<br/>')}</td></tr>" );
+  end
 
   def popup_create
     script = "<script language='javascript'>\n<!--\n"
@@ -91,6 +95,8 @@ module ViewDebugHelper
 end
 
 class ActionController::Base
-   alias :original_flash :flash 
-   def flash(refresh = false) original_flash(refresh) end
+  alias :original_flash :flash
+  def flash(refresh = false)
+    original_flash(refresh)
+  end
 end
