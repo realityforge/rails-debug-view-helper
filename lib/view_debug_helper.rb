@@ -46,7 +46,15 @@ module ViewDebugHelper
 
     dump_vars(script, 'Session Variables:', @controller.session.instance_variable_get("@data"))
     dump_vars(script, 'Flash Variables:', @controller.flash)
-    dump_vars(script, 'Assigned Template Variables:', @controller.assigns)
+    if view_debug_display_assigns and not @controller.assigns.nil?
+      popup_header(script, 'Assigned Template Variables:')
+      @controller.assigns.each do |k, v|
+        if (not @view_debug_ignores) or (not @view_debug_ignores.include?(k))
+          popup_data(script, h(k), dump_obj(v)) unless IGNORE.include?(k)
+        end
+      end
+    end
+
     script << add('</table>')
   end
 
@@ -99,4 +107,6 @@ class ActionController::Base
   def flash(refresh = false)
     original_flash(refresh)
   end
+  @@view_debug_display_assigns = true
+  cattr_accessor :view_debug_display_assigns
 end
