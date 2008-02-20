@@ -75,7 +75,7 @@ module ViewDebugHelper
   def popup_create
     script = "<script language='javascript'>\n<!--\n"
     script << "function show_debug_popup() {\n"
-    script << "_rails_console = window.open(\"\",\"#{@controller.class.name}\",\"width=680,height=600,resizable,scrollbars=yes\");\n"
+    script << "_rails_console = window.open(\"\",\"#{@controller.class.name.tr(':','')}\",\"width=680,height=600,resizable,scrollbars=yes\");\n"
     yield script
     script << "_rails_console.document.close();\n"
     script << "}\n"

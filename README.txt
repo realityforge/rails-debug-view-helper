@@ -32,3 +32,4 @@ John Dell for suggestion to add debug_inline feature.
 Rob Sharp for minor table style changes.
 Chris Wanstrath for bugfix where values contains newlines.
 Craig Steinberger for updates to rails 1.2.1.
+Joachim Fermstad for modification to support controllers in nested modules.
